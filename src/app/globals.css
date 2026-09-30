@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #08080d;
+  --color-ink-900: #0c0c14;
+  --color-ink-800: #101019;
+  --color-ink-700: #171722;
+  --color-ink-600: #22222f;
+
+  --color-mist-50: #f4f3f8;
+  --color-mist-100: #e9e7f0;
+  --color-mist-200: #cfccdd;
+  --color-mist-300: #a8a4bd;
+  --color-mist-400: #8b87a3;
+  --color-mist-500: #6f6b86;
+
+  --color-brand-400: #8b7bff;
+  --color-brand-500: #6d5cff;
+  --color-brand-600: #5641f0;
+  --color-aqua-300: #67e8f9;
+  --color-aqua-400: #22d3ee;
+
+  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-mist-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-500);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-400);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand-400),
+    var(--color-aqua-400)
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+@utility card-surface {
+  background-image: radial-gradient(
+      120% 120% at 18% 8%,
+      color-mix(in oklab, var(--color-brand-500) 38%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      120% 120% at 88% 92%,
+      color-mix(in oklab, var(--color-aqua-400) 30%, transparent),
+      transparent 62%
+    ),
+    var(--color-ink-800);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility reveal {
+  opacity: 0;
+}
+
+@utility reveal-in {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+  }
+
+  .reveal-in {
+    animation: none;
+  }
+}
