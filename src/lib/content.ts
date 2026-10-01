@@ -23,7 +23,7 @@ export const site = {
   tagline: "I make videos that move people.",
   intro:
     "Video editor and motion designer working with After Effects, Premiere Pro and DaVinci Resolve. Brand promos, product films and social content.",
-  email: "info@example.com",
+  whatsapp: "+916289821372",
 } as const;
 
 export const navLinks = [

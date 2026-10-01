@@ -20,10 +20,10 @@ export function Contact() {
         <Reveal delay={120}>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
-              href={`mailto:${site.email}`}
+              href={`https://wa.me/${site.whatsapp.replace(/\D/g, "")}`}
               className="inline-flex items-center gap-2 rounded-full bg-linear-to-br from-brand-500 to-aqua-400 px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110"
             >
-              {site.email}
+              {site.whatsapp}
             </a>
             <a
               href="#work"
