@@ -42,6 +42,7 @@ export function VideoCard({ project, onOpen, index }: VideoCardProps) {
   }, []);
 
   useEffect(() => clearTimer, [clearTimer]);
+  useEffect(() => startPreview(), [startPreview]);
 
   const canHover = useCallback(
     () => typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches,
@@ -92,6 +93,7 @@ export function VideoCard({ project, onOpen, index }: VideoCardProps) {
             preload="metadata"
             playsInline
             muted
+            autoPlay
             loop
             onLoadedData={() => setReady(true)}
             onError={() => setFailed(true)}
