@@ -7,6 +7,7 @@ BASE_URL="https://media.githubusercontent.com/media/karmakarrohan45-art/portfoli
 FILES=(
   "reve8-saas-promo-50s.mp4"
   "reve8-saas-promo-25s.mp4"
+  "smoky-effect.mp4"
 )
 
 for fname in "${FILES[@]}"; do

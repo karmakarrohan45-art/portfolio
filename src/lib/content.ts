@@ -66,6 +66,7 @@ export const presets: EditingPreset[] = [
     shopifyHandle: "smoky-effect",
     shopifyHandles: ["smoky-effect", "pixel-preset"],
     imageSrc: "/presets/smoky-effect.jpg",
+    previewSrc: "/video/smoky-effect.mp4",
     description:
       "Clean kinetic typography, smooth speed ramps, and motion graphic presets built for fast-paced edits and brand promos.",
     tags: ["Motion Graphics", "After Effects", "Premiere Pro"],

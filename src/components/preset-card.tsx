@@ -89,8 +89,9 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
     const video = videoRef.current;
     if (!video) return;
     video.muted = true;
-    video.currentTime = 0;
-    void video.play().catch(() => {});
+    if (video.paused) {
+      void video.play().catch(() => {});
+    }
   }, []);
 
   const stopPreview = useCallback(() => {
@@ -100,6 +101,11 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
   }, []);
 
   useEffect(() => clearTimer, [clearTimer]);
+  useEffect(() => {
+    if (preset.previewSrc) {
+      startPreview();
+    }
+  }, [preset.previewSrc, startPreview]);
 
   const canHover = useCallback(
     () => typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches,
@@ -161,21 +167,7 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
           featured ? "aspect-video md:aspect-auto md:min-h-72" : "aspect-video"
         }`}
       >
-        {preset.previewSrc && !failed ? (
-          <video
-            ref={videoRef}
-            className={`size-full object-cover transition-opacity duration-500 ${
-              ready ? "opacity-100" : "opacity-0"
-            }`}
-            src={preset.previewSrc}
-            preload="metadata"
-            playsInline
-            muted
-            loop
-            onLoadedData={() => setReady(true)}
-            onError={() => setFailed(true)}
-          />
-        ) : preset.imageSrc && !imageFailed ? (
+        {preset.imageSrc && !imageFailed ? (
           <Image
             src={preset.imageSrc}
             alt={preset.title}
@@ -197,11 +189,29 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
           </div>
         )}
 
-        <span className="pointer-events-none absolute top-3 left-3 rounded-full border border-white/15 bg-black/45 px-2.5 py-1 text-[11px] font-medium tracking-wide text-mist-200 uppercase backdrop-blur-sm">
+        {preset.previewSrc && !failed ? (
+          <video
+            ref={videoRef}
+            className={`relative z-[1] size-full object-cover transition-opacity duration-500 ${
+              ready ? "opacity-100" : "opacity-0"
+            }`}
+            src={preset.previewSrc}
+            poster={preset.imageSrc}
+            preload="metadata"
+            playsInline
+            muted
+            autoPlay
+            loop
+            onLoadedData={() => setReady(true)}
+            onError={() => setFailed(true)}
+          />
+        ) : null}
+
+        <span className="pointer-events-none absolute top-3 left-3 z-10 rounded-full border border-white/15 bg-black/45 px-2.5 py-1 text-[11px] font-medium tracking-wide text-mist-200 uppercase backdrop-blur-sm">
           {preset.software}
         </span>
 
-        <span className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/65 px-2.5 py-1 text-xs font-semibold backdrop-blur-sm">
+        <span className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/65 px-2.5 py-1 text-xs font-semibold backdrop-blur-sm">
           {preset.price ?? preset.format}
         </span>
       </button>
