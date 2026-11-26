@@ -1,15 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { EditingPreset } from "@/lib/content";
 
 type PresetCardProps = {
   preset: EditingPreset;
   featured?: boolean;
 };
-
-const HOVER_DELAY = 350;
 
 function PresetIcon({ visual = "bundle" }: { visual?: EditingPreset["visual"] }) {
   if (visual === "color") {
@@ -71,41 +69,28 @@ function PresetIcon({ visual = "bundle" }: { visual?: EditingPreset["visual"] })
 
 export function PresetCard({ preset, featured = false }: PresetCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [checkingOut, setCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
-  const clearTimer = useCallback(() => {
-    if (hoverTimer.current) {
-      clearTimeout(hoverTimer.current);
-      hoverTimer.current = null;
-    }
-  }, []);
-
   const startPreview = useCallback(() => {
+    setHovered(true);
     const video = videoRef.current;
     if (!video) return;
     video.muted = true;
-    if (video.paused) {
-      void video.play().catch(() => {});
-    }
+    video.currentTime = 0;
+    void video.play().catch(() => {});
   }, []);
 
   const stopPreview = useCallback(() => {
+    setHovered(false);
     const video = videoRef.current;
     if (!video) return;
     video.pause();
   }, []);
-
-  useEffect(() => clearTimer, [clearTimer]);
-  useEffect(() => {
-    if (preset.previewSrc) {
-      startPreview();
-    }
-  }, [preset.previewSrc, startPreview]);
 
   const canHover = useCallback(
     () => typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches,
@@ -142,41 +127,61 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
     }
   }, [checkingOut, preset.id]);
 
+  const showVideo = hovered && ready && !failed;
+
   return (
     <article
       className={`group overflow-hidden rounded-card border border-white/10 bg-ink-800 transition duration-300 hover:-translate-y-1.5 hover:border-brand-500/60 hover:shadow-[0_24px_60px_rgba(0,0,0,0.55)] ${
         featured ? "grid md:grid-cols-[1.1fr_1fr]" : "flex h-full flex-col"
       }`}
-      onMouseEnter={() => {
-        if (!preset.previewSrc || !canHover()) return;
-        clearTimer();
-        hoverTimer.current = setTimeout(startPreview, HOVER_DELAY);
-      }}
-      onMouseLeave={() => {
-        if (!preset.previewSrc) return;
-        clearTimer();
-        stopPreview();
-      }}
     >
       <button
         type="button"
         onClick={handleBuy}
         disabled={checkingOut}
+        onMouseEnter={() => {
+          if (!preset.previewSrc || !canHover()) return;
+          startPreview();
+        }}
+        onMouseLeave={() => {
+          if (!preset.previewSrc) return;
+          stopPreview();
+        }}
         aria-label={`Buy ${preset.title} via Shopify Checkout`}
         className={`card-surface relative block w-full cursor-pointer overflow-hidden text-left disabled:cursor-wait ${
           featured ? "aspect-video md:aspect-auto md:min-h-72" : "aspect-video"
         }`}
       >
+        {preset.previewSrc && !failed ? (
+          <video
+            ref={videoRef}
+            className={`relative z-[1] size-full object-cover transition-opacity duration-500 ${
+              showVideo ? "opacity-100" : "opacity-0"
+            }`}
+            src={preset.previewSrc}
+            poster={preset.imageSrc}
+            preload="auto"
+            playsInline
+            muted
+            loop
+            onLoadedData={() => setReady(true)}
+            onCanPlay={() => setReady(true)}
+            onError={() => setFailed(true)}
+          />
+        ) : null}
+
         {preset.imageSrc && !imageFailed ? (
           <Image
             src={preset.imageSrc}
             alt={preset.title}
             fill
             sizes="(min-width: 640px) 50vw, 100vw"
-            className="object-cover transition duration-500 group-hover:scale-105"
+            className={`pointer-events-none z-[2] object-cover transition-all duration-500 group-hover:scale-105 ${
+              showVideo ? "opacity-0" : "opacity-100"
+            }`}
             onError={() => setImageFailed(true)}
           />
-        ) : (
+        ) : !preset.previewSrc || failed ? (
           <div className="pointer-events-none absolute inset-0 grid place-items-center p-6">
             <div className="flex flex-col items-center gap-3 text-center">
               <span className="grid size-16 place-items-center rounded-2xl border border-white/15 bg-ink-950/60 text-brand-400 shadow-lg backdrop-blur-md transition duration-300 group-hover:scale-105 group-hover:border-aqua-400/50 group-hover:text-aqua-300">
@@ -187,24 +192,6 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
               </span>
             </div>
           </div>
-        )}
-
-        {preset.previewSrc && !failed ? (
-          <video
-            ref={videoRef}
-            className={`relative z-[1] size-full object-cover transition-opacity duration-500 ${
-              ready ? "opacity-100" : "opacity-0"
-            }`}
-            src={preset.previewSrc}
-            poster={preset.imageSrc}
-            preload="metadata"
-            playsInline
-            muted
-            autoPlay
-            loop
-            onLoadedData={() => setReady(true)}
-            onError={() => setFailed(true)}
-          />
         ) : null}
 
         <span className="pointer-events-none absolute top-3 left-3 z-10 rounded-full border border-white/15 bg-black/45 px-2.5 py-1 text-[11px] font-medium tracking-wide text-mist-200 uppercase backdrop-blur-sm">
