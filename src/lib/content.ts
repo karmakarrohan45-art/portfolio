@@ -83,6 +83,9 @@ export const presets: EditingPreset[] = [
     visual: "color",
     buyUrl: presetsDriveUrl,
     shopifyHandle: "color-grading-finishing-pack",
+    imageSrc: "/presets/smokylens-transition.jpg",
+    previewSrc: "/video/smokylens-transition.mp4",
+    resolution: "1920×1080",
     description:
       "Filmic LUTs, contrast curves, and finishing looks tailored for commercial promos, SaaS films, and social reels.",
     tags: ["Color Grading", "DaVinci Resolve", "LUTs"],

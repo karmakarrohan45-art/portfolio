@@ -8,6 +8,7 @@ FILES=(
   "reve8-saas-promo-50s.mp4"
   "reve8-saas-promo-25s.mp4"
   "smoky-effect.mp4"
+  "smokylens-transition.mp4"
 )
 
 for fname in "${FILES[@]}"; do
