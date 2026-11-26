@@ -1,0 +1,48 @@
+{
+  "audioFileSrc": "https://file%2B.vscode-resource.vscode-cdn.net/c%3A/Users/User/.vscode/extensions/nekkon.astrapi-ai-0.0.9/dist/apps/astrapi-ai/browser/assets/audio/a1.mp3",
+  "audioFilePlaying": false,
+  "videoFileSrc": "https://file%2B.vscode-resource.vscode-cdn.net/c%3A/Users/User/.vscode/extensions/nekkon.astrapi-ai-0.0.9/dist/apps/astrapi-ai/browser/assets/videos/v1.mp4",
+  "taskTabs": [
+    {
+      "messages": [],
+      "taskPrompt": "",
+      "isGenerating": false,
+      "activeMessageId": null,
+      "activeActionId": null,
+      "paused": false,
+      "id": "new-task-tab",
+      "label": "New task",
+      "runType": null
+    },
+    {
+      "messages": [
+        {
+          "id": "c07616cb-9c51-4e90-9319-cdfe17ad55a8",
+          "actions": [],
+          "expanded": true,
+          "title": "JK",
+          "astrapiResponse": null,
+          "astrapiVoiceGenerating": false,
+          "astrapiVoicePlaying": false,
+          "astrapiVoiceSrc": null,
+          "references": null,
+          "promptImprovements": null,
+          "contextFilesNeeded": []
+        }
+      ],
+      "taskPrompt": "",
+      "isGenerating": false,
+      "activeMessageId": "c07616cb-9c51-4e90-9319-cdfe17ad55a8",
+      "activeActionId": null,
+      "id": "11ca06b3-20b5-4a4e-a0f7-1e5db458836d",
+      "label": "Task 1",
+      "runType": "all",
+      "paused": false
+    }
+  ],
+  "activeTaskTabId": "11ca06b3-20b5-4a4e-a0f7-1e5db458836d",
+  "resourceSelectionPaths": [],
+  "resourceStructureRefreshing": false,
+  "resourceRootPath": "",
+  "resourceStructure": null
+}

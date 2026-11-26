@@ -11,7 +11,7 @@ export function Work() {
   const [active, setActive] = useState<VideoProject | null>(null);
 
   return (
-    <section id="work" className="px-6 py-20 sm:px-8 sm:py-24">
+    <section id="work" className="border-t border-white/8 px-6 py-20 sm:px-8 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <Reveal className="mb-10">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Selected Work</h2>
