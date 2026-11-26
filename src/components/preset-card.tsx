@@ -194,13 +194,15 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
           </div>
         ) : null}
 
-        <span className="pointer-events-none absolute top-3 left-3 z-10 rounded-full border border-white/15 bg-black/45 px-2.5 py-1 text-[11px] font-medium tracking-wide text-mist-200 uppercase backdrop-blur-sm">
+        <span className="pointer-events-none absolute top-3 left-3 z-10 max-w-[calc(100%-1.5rem)] truncate rounded-full border border-white/15 bg-black/45 px-2.5 py-1 text-[11px] font-medium tracking-wide text-mist-200 uppercase backdrop-blur-sm">
           {preset.software}
         </span>
 
-        <span className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/65 px-2.5 py-1 text-xs font-semibold backdrop-blur-sm">
-          {preset.price ?? preset.format}
-        </span>
+        {!preset.imageSrc && !preset.previewSrc ? (
+          <span className="pointer-events-none absolute right-3 bottom-3 z-10 rounded-full bg-black/65 px-2.5 py-1 text-xs font-semibold backdrop-blur-sm">
+            {preset.price ?? preset.format}
+          </span>
+        ) : null}
       </button>
 
       <div className={`flex flex-1 flex-col gap-3 p-6 ${featured ? "sm:p-8" : ""}`}>

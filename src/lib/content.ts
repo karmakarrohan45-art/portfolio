@@ -58,7 +58,7 @@ export const presets: EditingPreset[] = [
     id: "motion-graphics-presets",
     title: "Smoky Effect",
     badge: "Shopify Checkout",
-    software: "After Effects · Premiere Pro",
+    software: "Pixel grid effect transition made for Premiere Pro.",
     format: ".ffx · .prfpset",
     price: "₹499",
     visual: "motion",
@@ -68,8 +68,8 @@ export const presets: EditingPreset[] = [
     imageSrc: "/presets/smoky-effect.jpg",
     previewSrc: "/video/smoky-effect.mp4",
     description:
-      "Clean kinetic typography, smooth speed ramps, and motion graphic presets built for fast-paced edits and brand promos.",
-    tags: ["Motion Graphics", "After Effects", "Premiere Pro"],
+      "Pixel grid effect transition made for Premiere Pro.",
+    tags: ["Special Effects", "Transitions", "Premiere Pro"],
   },
   {
     id: "color-grading-lut-pack",
