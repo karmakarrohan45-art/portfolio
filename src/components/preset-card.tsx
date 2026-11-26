@@ -7,6 +7,7 @@ import type { EditingPreset } from "@/lib/content";
 type PresetCardProps = {
   preset: EditingPreset;
   featured?: boolean;
+  onWatch?: (preset: EditingPreset, duration?: string) => void;
 };
 
 function PresetIcon({ visual = "bundle" }: { visual?: EditingPreset["visual"] }) {
@@ -67,12 +68,13 @@ function PresetIcon({ visual = "bundle" }: { visual?: EditingPreset["visual"] })
   );
 }
 
-export function PresetCard({ preset, featured = false }: PresetCardProps) {
+export function PresetCard({ preset, featured = false, onWatch }: PresetCardProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [durationLabel, setDurationLabel] = useState<string | undefined>(undefined);
   const [checkingOut, setCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
@@ -127,7 +129,14 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
     }
   }, [checkingOut, preset.id]);
 
+  const handleWatch = useCallback(() => {
+    if (!preset.previewSrc || !onWatch) return;
+    stopPreview();
+    onWatch(preset, durationLabel);
+  }, [durationLabel, onWatch, preset, stopPreview]);
+
   const showVideo = hovered && ready && !failed;
+  const canWatchVideo = Boolean(preset.previewSrc && onWatch && !failed);
 
   return (
     <article
@@ -137,8 +146,8 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
     >
       <button
         type="button"
-        onClick={handleBuy}
-        disabled={checkingOut}
+        onClick={canWatchVideo ? handleWatch : handleBuy}
+        disabled={!canWatchVideo && checkingOut}
         onMouseEnter={() => {
           if (!preset.previewSrc || !canHover()) return;
           startPreview();
@@ -147,7 +156,11 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
           if (!preset.previewSrc) return;
           stopPreview();
         }}
-        aria-label={`Buy ${preset.title} via Shopify Checkout`}
+        aria-label={
+          canWatchVideo
+            ? `Watch ${preset.title}`
+            : `Buy ${preset.title} via Shopify Checkout`
+        }
         className={`card-surface relative block w-full cursor-pointer overflow-hidden text-left disabled:cursor-wait ${
           featured ? "aspect-video md:aspect-auto md:min-h-72" : "aspect-video"
         }`}
@@ -164,6 +177,15 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
             playsInline
             muted
             loop
+            onLoadedMetadata={(e) => {
+              const secs = e.currentTarget.duration;
+              if (Number.isFinite(secs) && secs > 0) {
+                const total = Math.round(secs);
+                const mins = Math.floor(total / 60);
+                const rem = total % 60;
+                setDurationLabel(`${mins}:${String(rem).padStart(2, "0")}`);
+              }
+            }}
             onLoadedData={() => setReady(true)}
             onCanPlay={() => setReady(true)}
             onError={() => setFailed(true)}
@@ -227,6 +249,20 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
             </li>
           ))}
         </ul>
+
+        {canWatchVideo ? (
+          <div className="flex items-center gap-3 pt-1 text-xs text-mist-500">
+            <span>{preset.resolution ?? "1920×1080"}</span>
+            <span aria-hidden="true">·</span>
+            <button
+              type="button"
+              onClick={handleWatch}
+              className="cursor-pointer font-semibold text-brand-400 transition-colors hover:text-aqua-300"
+            >
+              {durationLabel ? `Watch ${durationLabel}` : "Watch"}
+            </button>
+          </div>
+        ) : null}
 
         {checkoutError ? (
           <p role="alert" className="text-xs leading-relaxed text-amber-300">

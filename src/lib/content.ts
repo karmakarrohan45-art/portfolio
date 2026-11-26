@@ -25,6 +25,7 @@ export type EditingPreset = {
   shopifyVariantId?: string;
   imageSrc?: string;
   previewSrc?: string;
+  resolution?: string;
   description: string;
   tags: string[];
 };
@@ -67,6 +68,7 @@ export const presets: EditingPreset[] = [
     shopifyHandles: ["smoky-effect", "pixel-preset"],
     imageSrc: "/presets/smoky-effect.jpg",
     previewSrc: "/video/smoky-effect.mp4",
+    resolution: "1920×1080",
     description:
       "Pixel grid effect transition made for Premiere Pro.",
     tags: ["Special Effects", "Transitions", "Premiere Pro"],
