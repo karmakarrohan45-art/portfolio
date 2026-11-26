@@ -60,7 +60,7 @@ export const presets: EditingPreset[] = [
     badge: "Shopify Checkout",
     software: "Pixel grid effect transition made for Premiere Pro.",
     format: ".ffx · .prfpset",
-    price: "₹499",
+    price: "₹999",
     visual: "motion",
     buyUrl: presetsDriveUrl,
     shopifyHandle: "smoky-effect",
