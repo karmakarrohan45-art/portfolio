@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { EditingPreset } from "@/lib/content";
 
@@ -73,6 +74,7 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [imageFailed, setImageFailed] = useState(false);
   const [checkingOut, setCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
@@ -172,6 +174,15 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
             loop
             onLoadedData={() => setReady(true)}
             onError={() => setFailed(true)}
+          />
+        ) : preset.imageSrc && !imageFailed ? (
+          <Image
+            src={preset.imageSrc}
+            alt={preset.title}
+            fill
+            sizes="(min-width: 640px) 50vw, 100vw"
+            className="object-cover transition duration-500 group-hover:scale-105"
+            onError={() => setImageFailed(true)}
           />
         ) : (
           <div className="pointer-events-none absolute inset-0 grid place-items-center p-6">

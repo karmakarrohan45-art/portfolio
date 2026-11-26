@@ -21,7 +21,9 @@ export type EditingPreset = {
   visual?: "motion" | "color" | "bundle";
   buyUrl: string;
   shopifyHandle?: string;
+  shopifyHandles?: string[];
   shopifyVariantId?: string;
+  imageSrc?: string;
   previewSrc?: string;
   description: string;
   tags: string[];
@@ -54,14 +56,16 @@ export const navLinks = [
 export const presets: EditingPreset[] = [
   {
     id: "motion-graphics-presets",
-    title: "Motion Graphics & Transitions",
+    title: "Smoky Effect",
     badge: "Shopify Checkout",
     software: "After Effects · Premiere Pro",
     format: ".ffx · .prfpset",
     price: "₹499",
     visual: "motion",
     buyUrl: presetsDriveUrl,
-    shopifyHandle: "motion-graphics-transitions",
+    shopifyHandle: "smoky-effect",
+    shopifyHandles: ["smoky-effect", "pixel-preset"],
+    imageSrc: "/presets/smoky-effect.jpg",
     description:
       "Clean kinetic typography, smooth speed ramps, and motion graphic presets built for fast-paced edits and brand promos.",
     tags: ["Motion Graphics", "After Effects", "Premiere Pro"],

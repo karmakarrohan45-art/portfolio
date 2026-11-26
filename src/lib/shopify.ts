@@ -171,7 +171,11 @@ function findMatchingProduct(
   preset: EditingPreset,
   products: ShopifyProduct[],
 ): ShopifyProduct | undefined {
-  const candidateHandles = [preset.shopifyHandle, preset.id]
+  const candidateHandles = [
+    preset.shopifyHandle,
+    ...(preset.shopifyHandles ?? []),
+    preset.id,
+  ]
     .filter((v): v is string => Boolean(v))
     .map((v) => v.toLowerCase());
 
@@ -203,8 +207,12 @@ async function resolveVariantId(preset: EditingPreset): Promise<string> {
   if (!matched) {
     const available = products.map((p) => `${p.title} (${p.handle})`);
     const handleHint = preset.shopifyHandle ?? preset.id;
+    const storeSummary =
+      available.length > 0
+        ? `Found in store: ${available.join(", ")}.`
+        : "Storefront API returned 0 products (check that the product is published to your Storefront/Headless sales channel).";
     throw new ShopifyCheckoutError(
-      `Product "${preset.title}" (handle: "${handleHint}") was not found in your Shopify store. Add it in Shopify Admin to enable checkout.`,
+      `Product "${preset.title}" (handle: "${handleHint}") was not found. ${storeSummary}`,
       404,
       available,
     );
