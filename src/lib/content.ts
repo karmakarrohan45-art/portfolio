@@ -57,15 +57,15 @@ export const navLinks = [
 export const presets: EditingPreset[] = [
   {
     id: "motion-graphics-presets",
-    title: "Smoky Effect",
+    title: "Flashy Pixel grid effect transition",
     badge: "Shopify Checkout",
     software: "Software - Premiere Pro",
     format: ".ffx · .prfpset",
     price: "₹999",
     visual: "motion",
     buyUrl: presetsDriveUrl,
-    shopifyHandle: "smoky-effect",
-    shopifyHandles: ["smoky-effect", "pixel-preset"],
+    shopifyHandle: "flashy-pixel-grid-effect-transition",
+    shopifyHandles: ["flashy-pixel-grid-effect-transition", "smoky-effect", "pixel-preset"],
     imageSrc: "/presets/smoky-effect.jpg",
     previewSrc: "/video/smoky-effect.mp4",
     resolution: "1920×1080",
