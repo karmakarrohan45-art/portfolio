@@ -73,6 +73,8 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const clearTimer = useCallback(() => {
     if (hoverTimer.current) {
@@ -102,6 +104,36 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
     [],
   );
 
+  const handleBuy = useCallback(async () => {
+    if (checkingOut) return;
+    setCheckingOut(true);
+    setCheckoutError(null);
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ presetId: preset.id }),
+      });
+
+      const data = (await response.json()) as {
+        checkoutUrl?: string;
+        error?: string;
+      };
+
+      if (!response.ok || !data.checkoutUrl) {
+        setCheckoutError(data.error ?? "Unable to open Shopify checkout.");
+        return;
+      }
+
+      window.location.assign(data.checkoutUrl);
+    } catch {
+      setCheckoutError("Network error while starting checkout. Please try again.");
+    } finally {
+      setCheckingOut(false);
+    }
+  }, [checkingOut, preset.id]);
+
   return (
     <article
       className={`group overflow-hidden rounded-card border border-white/10 bg-ink-800 transition duration-300 hover:-translate-y-1.5 hover:border-brand-500/60 hover:shadow-[0_24px_60px_rgba(0,0,0,0.55)] ${
@@ -118,12 +150,12 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
         stopPreview();
       }}
     >
-      <a
-        href={preset.buyUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Buy ${preset.title} on Google Drive`}
-        className={`card-surface relative block overflow-hidden ${
+      <button
+        type="button"
+        onClick={handleBuy}
+        disabled={checkingOut}
+        aria-label={`Buy ${preset.title} via Shopify Checkout`}
+        className={`card-surface relative block w-full cursor-pointer overflow-hidden text-left disabled:cursor-wait ${
           featured ? "aspect-video md:aspect-auto md:min-h-72" : "aspect-video"
         }`}
       >
@@ -161,7 +193,7 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
         <span className="pointer-events-none absolute right-3 bottom-3 rounded-full bg-black/65 px-2.5 py-1 text-xs font-semibold backdrop-blur-sm">
           {preset.price ?? preset.format}
         </span>
-      </a>
+      </button>
 
       <div className={`flex flex-1 flex-col gap-3 p-6 ${featured ? "sm:p-8" : ""}`}>
         <div className="flex items-baseline justify-between gap-4">
@@ -186,15 +218,21 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
           ))}
         </ul>
 
+        {checkoutError ? (
+          <p role="alert" className="text-xs leading-relaxed text-amber-300">
+            {checkoutError}
+          </p>
+        ) : null}
+
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
           <span className="text-xs text-mist-500">{preset.format}</span>
-          <a
-            href={preset.buyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-linear-to-br from-brand-500 to-aqua-400 px-4 py-2 text-xs font-semibold text-white transition hover:brightness-110"
+          <button
+            type="button"
+            onClick={handleBuy}
+            disabled={checkingOut}
+            className="inline-flex cursor-pointer items-center gap-1.5 rounded-full bg-linear-to-br from-brand-500 to-aqua-400 px-4 py-2 text-xs font-semibold text-white transition hover:brightness-110 disabled:cursor-wait disabled:opacity-70"
           >
-            Buy Presets
+            {checkingOut ? "Opening checkout…" : "Buy Presets"}
             <svg
               viewBox="0 0 24 24"
               className="size-3.5"
@@ -207,7 +245,7 @@ export function PresetCard({ preset, featured = false }: PresetCardProps) {
             >
               <path d="M7 17L17 7M9 7h8v8" />
             </svg>
-          </a>
+          </button>
         </div>
       </div>
     </article>

@@ -11,7 +11,7 @@ export function Presets() {
         <Reveal className="mb-10">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Editing Presets</h2>
           <p className="mt-2 text-sm text-mist-400">
-            Ready-to-use presets &amp; templates · buy and download on Google Drive
+            Ready-to-use presets &amp; templates · secure checkout via Shopify
           </p>
         </Reveal>
 

@@ -20,6 +20,8 @@ export type EditingPreset = {
   price?: string;
   visual?: "motion" | "color" | "bundle";
   buyUrl: string;
+  shopifyHandle?: string;
+  shopifyVariantId?: string;
   previewSrc?: string;
   description: string;
   tags: string[];
@@ -53,12 +55,13 @@ export const presets: EditingPreset[] = [
   {
     id: "motion-graphics-presets",
     title: "Motion Graphics & Transitions",
-    badge: "Google Drive",
+    badge: "Shopify Checkout",
     software: "After Effects · Premiere Pro",
     format: ".ffx · .prfpset",
     price: "₹499",
     visual: "motion",
     buyUrl: presetsDriveUrl,
+    shopifyHandle: "motion-graphics-transitions",
     description:
       "Clean kinetic typography, smooth speed ramps, and motion graphic presets built for fast-paced edits and brand promos.",
     tags: ["Motion Graphics", "After Effects", "Premiere Pro"],
@@ -66,12 +69,13 @@ export const presets: EditingPreset[] = [
   {
     id: "color-grading-lut-pack",
     title: "Color Grading & Finishing Pack",
-    badge: "Google Drive",
+    badge: "Shopify Checkout",
     software: "DaVinci Resolve · Premiere Pro",
     format: ".cube · Presets",
     price: "₹499",
     visual: "color",
     buyUrl: presetsDriveUrl,
+    shopifyHandle: "color-grading-finishing-pack",
     description:
       "Filmic LUTs, contrast curves, and finishing looks tailored for commercial promos, SaaS films, and social reels.",
     tags: ["Color Grading", "DaVinci Resolve", "LUTs"],
