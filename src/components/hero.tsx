@@ -31,8 +31,17 @@ export function Hero() {
               className="inline-flex items-center gap-2 rounded-full bg-linear-to-br from-brand-500 to-aqua-400 px-6 py-3 text-sm font-semibold text-white transition hover:brightness-110"
             >
               View my work
-              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+            <a
+              href="#presets"
+              className="inline-flex items-center gap-2 rounded-full border border-brand-400/50 bg-brand-500/15 px-6 py-3 text-sm font-semibold text-mist-50 transition hover:border-brand-400 hover:bg-brand-500/25"
+            >
+              WANT PRESETS
+              <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 5v14M6 13l6 6 6-6" />
               </svg>
             </a>
             <a
