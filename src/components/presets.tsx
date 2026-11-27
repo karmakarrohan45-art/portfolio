@@ -36,7 +36,7 @@ export function Presets() {
         <Reveal className="mb-10">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Editing Presets</h2>
           <p className="mt-2 text-sm text-mist-400">
-            Ready-to-use presets &amp; templates · secure checkout via Shopify
+            Ready-to-use presets &amp; templates · instant checkout via Razorpay
           </p>
         </Reveal>
 

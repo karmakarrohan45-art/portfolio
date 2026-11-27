@@ -18,6 +18,7 @@ export type EditingPreset = {
   software: string;
   format: string;
   price?: string;
+  pricePaise: number;
   visual?: "motion" | "color" | "bundle";
   buyUrl: string;
   shopifyHandle?: string;
@@ -58,10 +59,11 @@ export const presets: EditingPreset[] = [
   {
     id: "motion-graphics-presets",
     title: "Flashy Pixel grid effect transition",
-    badge: "Shopify Checkout",
+    badge: "Razorpay Checkout",
     software: "Software - Premiere Pro",
     format: ".ffx · .prfpset",
     price: "₹999",
+    pricePaise: 99900,
     visual: "motion",
     buyUrl: presetsDriveUrl,
     shopifyHandle: "flashy-pixel-grid-effect-transition",
@@ -76,10 +78,11 @@ export const presets: EditingPreset[] = [
   {
     id: "color-grading-lut-pack",
     title: "Color Grading & Finishing Pack",
-    badge: "Shopify Checkout",
+    badge: "Razorpay Checkout",
     software: "DaVinci Resolve · Premiere Pro",
     format: ".cube · Presets",
     price: "₹499",
+    pricePaise: 49900,
     visual: "color",
     buyUrl: presetsDriveUrl,
     shopifyHandle: "color-grading-finishing-pack",
