@@ -37,8 +37,9 @@ export type Skill = {
 };
 
 export const site = {
-  name: "Rohan | Motion Designer",
-  initials: "RK",
+  name: "Gene Academy",
+  initials: "GA",
+  logoSrc: "/brand/gene-academy-logo.jpg",
   role: "Motion Design · Video Editing · Brand Films",
   tagline: "I make videos that move people.",
   intro:

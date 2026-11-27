@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description:
-     "Portfolio of Rohan | Motion Designer — motion design, video editing and brand promo films. Selected work including the reve8 SaaS promo film.",
+    "Portfolio of Gene Academy — motion design, video editing and brand promo films. Selected work including the reve8 SaaS promo film.",
   keywords: [
     "video editor",
     "motion designer",
