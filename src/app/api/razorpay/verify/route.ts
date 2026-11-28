@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { presets } from "@/lib/content";
+import { markOrderPaid } from "@/lib/db";
 import { RazorpayError, verifyRazorpaySignature } from "@/lib/razorpay";
 
 type VerifyRequestBody = {
@@ -51,10 +52,19 @@ export async function POST(request: Request) {
       );
     }
 
+    const downloadToken = await markOrderPaid({
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+      presetId: preset.id,
+      presetTitle: preset.title,
+      amountPaise: preset.pricePaise,
+      currency: "INR",
+    });
+
     return NextResponse.json({
       verified: true,
       paymentId: razorpay_payment_id,
-      downloadUrl: preset.buyUrl,
+      downloadUrl: `/download/${downloadToken}`,
     });
   } catch (error) {
     if (error instanceof RazorpayError) {

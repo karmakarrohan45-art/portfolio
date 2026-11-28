@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { presets } from "@/lib/content";
+import { createOrderRecord } from "@/lib/db";
 import { createRazorpayOrder, RazorpayError } from "@/lib/razorpay";
 
 type OrderRequestBody = {
@@ -28,6 +29,14 @@ export async function POST(request: Request) {
 
   try {
     const order = await createRazorpayOrder(preset);
+    await createOrderRecord({
+      orderId: order.orderId,
+      presetId: preset.id,
+      presetTitle: preset.title,
+      amountPaise: order.amount,
+      currency: order.currency,
+    });
+
     return NextResponse.json({
       ...order,
       presetTitle: preset.title,
